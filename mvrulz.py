@@ -4,11 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 from urllib.request import urlparse, urljoin
 import subprocess
+import sys
 
 t_movie_link = "https://4movierulz.pw/category/telugu-movie/"
 big_start = date(2020, 9, 6)
 t_download_output_file = 't-download-output-file.txt'
 search_string = 'vintha'
+bigg_boss = 'bigg-boss'
 
 def is_magnet(url):
 	"""
@@ -58,7 +60,7 @@ def big_boss_today():
 	print(" urls are :", urls)
 	for link in urls:
 		print(" link is :", link)
-		if ('bigg-boss' in link) and (str(no_of_days.days) in link):
+		if (bigg_boss in link) and (str(no_of_days.days) in link):
 			print("Found the link:", link)
 			today_link = link
 	return today_link
@@ -93,9 +95,12 @@ def download_torrent(torrent_link):
 	print("Return code is: ", output, error)
 
 if __name__ == "__main__":
-	print("Welcome to mvrulz")
-	#today_link = big_boss_today()
-	today_link = get_title_link(search_string)
+	print("Running mvrulz with arguments: ", sys.argv)
+	search_string = sys.argv[1]
+	if bigg_boss in search_string:
+		today_link = big_boss_today()
+	else:
+		today_link = get_title_link(search_string)
 	print("Today's link is: ", today_link)
 	if today_link != "":
 		torrent_links = find_torrent_links(today_link)
