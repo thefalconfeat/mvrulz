@@ -11,6 +11,7 @@ big_start = date(2020, 9, 6)
 t_download_output_file = 't-download-output-file.txt'
 search_string = 'vintha'
 bigg_boss = 'bigg-boss'
+size_limit = 2000
 
 def is_magnet(url):
 	"""
@@ -25,6 +26,8 @@ def convert_to_mb(size):
 	if 'gb' in size:
 		size_quantity = size_quantity*1024
 		print("update size is: ", size_quantity)
+	if size_quantity > size_limit:
+		size_quantity = 0
 	return size_quantity
 
 def find_torrent_links(url):
@@ -64,14 +67,19 @@ def big_boss_today():
 			print("Found the link:", link)
 			today_link = link
 	return today_link
+
+def print_title(link):
+	split_link = link.split('/')
+	print('\t ', split_link[len(split_link)-2])
+	
 	
 def get_title_link(title):
 	print("this is today's torrent link for ", title)
 	urls = crawler.get_all_website_links(t_movie_link)
 	title_link = ''
-	print(" urls are :", urls)
+	#print(" urls are :", urls)
 	for link in urls:
-		print(" link is :", link)
+		print_title(link)
 		if (title in link):
 			print("Found the link:", link)
 			title_link = link
