@@ -6,6 +6,13 @@ from urllib.request import urlparse, urljoin
 import subprocess
 import sys
 
+search_db = {
+	"telugu": "https://4movierulz.pe/category/telugu-movie/",
+	"tamil": "",
+	"hollywood": "https://4movierulz.pe/category/hollywood-movie-2020/",
+	"search": "https://4movierulz.pe/?s="
+}
+
 t_movie_link = "https://4movierulz.pw/category/telugu-movie/"
 big_start = date(2020, 9, 6)
 t_download_output_file = 't-download-output-file.txt'
@@ -104,7 +111,12 @@ def download_torrent(torrent_link):
 
 if __name__ == "__main__":
 	print("Running mvrulz with arguments: ", sys.argv)
-	search_string = sys.argv[1]
+	db = sys.argv[1]
+	t_movie_link = search_db[db]
+	search_string = sys.argv[2]
+	if db=="search":
+		t_movie_link=t_movie_link+search_string.replace('-', '+')
+	print("********\n\nsearch string and movie links", search_string, t_movie_link)	
 	if bigg_boss in search_string:
 		today_link = big_boss_today()
 	else:
