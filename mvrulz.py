@@ -10,15 +10,60 @@ search_db = {
 	"telugu": "https://4movierulz.pe/category/telugu-movie/",
 	"tamil": "",
 	"hollywood": "https://4movierulz.pe/category/hollywood-movie-2020/",
-	"search": "https://4movierulz.pe/?s="
+	"search": "https://4movierulz.pe/?s=",
+	"main": "https://4movierulz.pe/"
 }
 
+dummy_links = [
+	"download-movierulz-app",
+	"dvdrip",
+	"tamil-movie",
+	"bollywood-movie-2021",
+	"bollywood-movie-2020",
+	"malayalam-movie-online",
+	"hindi-dubbed-movie",
+	"bengali-movie",
+	"bollywood-movie-2019",
+	"adult-18",
+	"bollywood-movie-2018",
+	"telugu-movie",
+	"telugu-dubbed-movie-2",
+	"requested-movies",
+	"featured",
+	"hollywood-movie-2018",
+	"bollywood-movie-free",
+	  "tamil-movies-2019",
+	  "punjabi-movie",
+	  "tamil-movies-2021",
+	  "movies-by-genres-and-years",
+	  "contact-us",
+	  "hollywood-movie-2020",
+	  "malayalam-movie-2020",
+	  "telugu-movies-2021",
+	  "malayalam-movie-2019",
+	  "hollywood-movie-2019",
+	  "hollywood-movie-2020",
+	  "others-movies",
+	  "malayalam-movie-2021",
+	  "tamil-movies-2020",
+	  "latest-songs",
+	  "multi-audio-dubbed-movies",
+	  "tamil-dubbed-movie-2",
+	  "telugu-movie",
+	  "telugu-movies-2020",
+	  "malayalam-movie",
+	  "telugu-movies-2019",
+	  "tamil-movie-free",
+	  "adult-movie",
+	  "hollywood-movie-2017"
+	
+]
 t_movie_link = "https://4movierulz.pw/category/telugu-movie/"
 big_start = date(2020, 9, 6)
 t_download_output_file = 't-download-output-file.txt'
 search_string = 'vintha'
 bigg_boss = 'bigg-boss'
-size_limit = 2000
+size_limit = 3000
 
 def is_magnet(url):
 	"""
@@ -77,7 +122,9 @@ def big_boss_today():
 
 def print_title(link):
 	split_link = link.split('/')
-	print('\t ', split_link[len(split_link)-2])
+	l_link = split_link[len(split_link)-2]
+	if l_link not in dummy_links:
+		print('\t ', l_link)
 	
 	
 def get_title_link(title):
@@ -91,6 +138,12 @@ def get_title_link(title):
 			print("Found the link:", link)
 			title_link = link
 	return title_link
+
+def list_link_titles():
+	print("Here are the titles available for you to download")
+	urls = crawler.get_all_website_links(t_movie_link)
+	for link in urls:
+		print_title(link)
 
 def pick_torrent_link_by_size(torrent_links):
 	print("\nNow picking the appropriate size torrent file")
@@ -114,6 +167,8 @@ if __name__ == "__main__":
 	db = sys.argv[1]
 	t_movie_link = search_db[db]
 	search_string = sys.argv[2]
+	if "list"==search_string:
+		list_link_titles()
 	if db=="search":
 		t_movie_link=t_movie_link+search_string.replace('-', '+')
 	print("********\n\nsearch string and movie links", search_string, t_movie_link)	
